@@ -1,7 +1,6 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md" v-if="componentProps.data.length">
     <q-table
-      hide-pagination
       :title="title"
       :rows="data"
       :columns="colunms"
@@ -14,7 +13,12 @@
       <template v-slot:body="props">
         <CustomRow
           :rowProps="props"
+          :paths="[
+            ...componentProps.paths,
+            { tableName: componentProps.title, rowIndex: props.rowIndex },
+          ]"
           @expand="props.expand = !props.expand"
+          @delete="deleteRow(props.rowIndex)"
         ></CustomRow>
       </template>
     </q-table>
@@ -31,9 +35,13 @@ import CustomHeader from "@/components/CustomHeader.vue";
 // Models
 import type { TableRow } from "@/models/table.model";
 
+// Store
+import { usePatientsStore } from "@/stores/patients";
+
 const componentProps = defineProps<{
   title: string;
   data: TableRow[];
+  paths: { tableName: string; rowIndex: number }[];
 }>();
 
 const colunms = computed(() =>
@@ -43,4 +51,13 @@ const colunms = computed(() =>
     field: key,
   }))
 );
+
+const { deleteItem } = usePatientsStore();
+
+const deleteRow = (rowIndex: number): void => {
+  deleteItem([
+    ...componentProps.paths,
+    { tableName: componentProps.title, rowIndex },
+  ]);
+};
 </script>

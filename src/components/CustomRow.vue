@@ -15,15 +15,27 @@
     <q-td v-for="col in rowProps.cols" :key="col.name" :props="rowProps">
       {{ rowProps.row.data[col.name] }}
     </q-td>
+
+    <q-td auto-width>
+      <q-btn
+        size="sm"
+        color="accent"
+        round
+        dense
+        icon="remove"
+        @click="$emit('delete')"
+      />
+    </q-td>
   </q-tr>
 
   <q-tr v-show="rowProps.expand" :props="rowProps">
     <q-td colspan="100%">
       <div class="text-left">
         <CustomTable
-          :title="Object.keys(rowProps.row.kids)[0]"
-          :data="rowProps.row.kids[key].records"
           v-for="key in Object.keys(rowProps.row.kids)"
+          :title="key"
+          :data="rowProps.row.kids[key].records"
+          :paths="paths"
         />
       </div>
     </q-td>
@@ -33,6 +45,6 @@
 <script setup lang="ts">
 import CustomTable from "@/components/CustomTable.vue";
 
-defineProps(["rowProps"]);
-defineEmits(["expand"]);
+defineProps(["rowProps", "paths"]);
+defineEmits(["expand", "delete"]);
 </script>

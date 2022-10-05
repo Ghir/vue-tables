@@ -1,5 +1,12 @@
 <template>
-  <CustomTable title="data.json" :data="patientsData" />
+  <CustomTable
+    :title="undefined"
+    :data="patientsData"
+    :paths="[]"
+    v-if="patientsData.length"
+  />
+
+  <div v-else>No data</div>
 </template>
 
 <script setup lang="ts">

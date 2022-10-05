@@ -1,21 +1,29 @@
 import { defineStore } from "pinia";
 
-import { reactive, ref } from "vue";
+import { ref } from "vue";
 
 import { getData } from "@/helpers/api";
+import { buildPath } from "@/helpers/build-path";
+
 import type { TableRow } from "@/models/table.model";
 
 export const usePatientsStore = defineStore("patients", () => {
-  let patientsData: TableRow[] = reactive([]);
-  let isLoading = ref(false);
+  const patientsData = ref<TableRow[]>([]);
+  const isLoading = ref(false);
 
   async function loadData(): Promise<void> {
     isLoading.value = true;
     const response = await getData();
 
-    patientsData.push(...response);
+    patientsData.value.push(...response);
     isLoading.value = false;
   }
 
-  return { patientsData, isLoading, loadData };
+  function deleteItem(paths: { tableName: string; rowIndex: number }[]): void {
+    const { objPath, indexToDelete } = buildPath(paths);
+
+    eval(`patientsData.value${objPath.join("")}.splice(indexToDelete,1)`);
+  }
+
+  return { patientsData, isLoading, loadData, deleteItem };
 });
