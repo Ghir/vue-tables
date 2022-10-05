@@ -1,6 +1,6 @@
 <template>
   <CustomTable
-    :title="undefined"
+    title="Data.json"
     :data="patientsData"
     :paths="[]"
     v-if="patientsData.length"

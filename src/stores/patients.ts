@@ -5,7 +5,7 @@ import { ref } from "vue";
 import { getData } from "@/helpers/api";
 import { buildPath } from "@/helpers/build-path";
 
-import type { TableRow } from "@/models/table.model";
+import type { TableRow, Path } from "@/models/table.model";
 
 export const usePatientsStore = defineStore("patients", () => {
   const patientsData = ref<TableRow[]>([]);
@@ -19,7 +19,7 @@ export const usePatientsStore = defineStore("patients", () => {
     isLoading.value = false;
   }
 
-  function deleteItem(paths: { tableName: string; rowIndex: number }[]): void {
+  function deleteItem(paths: Path[]): void {
     const { objPath, indexToDelete } = buildPath(paths);
 
     eval(`patientsData.value${objPath.join("")}.splice(indexToDelete,1)`);

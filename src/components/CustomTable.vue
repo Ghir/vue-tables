@@ -2,9 +2,11 @@
   <div class="q-pa-md" v-if="componentProps.data.length">
     <q-table
       :title="title"
-      :rows="data"
+      :rows="rowsWithIds"
       :columns="colunms"
-      :row-key="(row) => row.data[Object.keys(row.data)[0]]"
+      :row-key="(row) => row.data.rowId"
+      :pagination="{ rowsPerPage: 0 }"
+      hide-pagination
     >
       <template v-slot:header="props">
         <CustomHeader :headerProps="props"></CustomHeader>
@@ -13,12 +15,9 @@
       <template v-slot:body="props">
         <CustomRow
           :rowProps="props"
-          :paths="[
-            ...componentProps.paths,
-            { tableName: componentProps.title, rowIndex: props.rowIndex },
-          ]"
+          :paths="addPath(props.rowIndex)"
           @expand="props.expand = !props.expand"
-          @delete="deleteRow(props.rowIndex)"
+          @delete="deleteItem(addPath(props.rowIndex))"
         ></CustomRow>
       </template>
     </q-table>
@@ -33,7 +32,7 @@ import CustomRow from "@/components/CustomRow.vue";
 import CustomHeader from "@/components/CustomHeader.vue";
 
 // Models
-import type { TableRow } from "@/models/table.model";
+import type { TableRow, Path } from "@/models/table.model";
 
 // Store
 import { usePatientsStore } from "@/stores/patients";
@@ -41,8 +40,15 @@ import { usePatientsStore } from "@/stores/patients";
 const componentProps = defineProps<{
   title: string;
   data: TableRow[];
-  paths: { tableName: string; rowIndex: number }[];
+  paths: Path[];
 }>();
+
+const rowsWithIds = computed(() =>
+  componentProps.data.map((el: TableRow) => ({
+    ...el,
+    data: { ...el.data, rowId: Symbol() },
+  }))
+);
 
 const colunms = computed(() =>
   Object.keys(componentProps.data[0].data).map((key: string) => ({
@@ -54,10 +60,11 @@ const colunms = computed(() =>
 
 const { deleteItem } = usePatientsStore();
 
-const deleteRow = (rowIndex: number): void => {
-  deleteItem([
-    ...componentProps.paths,
-    { tableName: componentProps.title, rowIndex },
-  ]);
-};
+const addPath = (rowIndex: number): Path[] => [
+  ...componentProps.paths,
+  {
+    tableName: componentProps.paths.length > 0 ? componentProps.title : null,
+    rowIndex,
+  },
+];
 </script>

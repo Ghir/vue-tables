@@ -1,17 +1,19 @@
-export function buildPath(paths: { tableName: string; rowIndex: number }[]) {
+import type { Path } from "@/models/table.model";
+
+export function buildPath(paths: Path[]) {
   const objPath: string[] = [];
   let indexToDelete;
 
-  paths.forEach((path, i: number) => {
+  paths.forEach((path: Path, i: number) => {
     if (i === paths.length - 1) {
       indexToDelete = path.rowIndex;
-      if (path.tableName === undefined) {
+      if (path.tableName === null) {
         return;
       }
 
       objPath.push(`.kids['${path.tableName}'].records`);
     } else {
-      if (path.tableName === undefined) {
+      if (path.tableName === null) {
         objPath.push(`[${path.rowIndex}]`);
         return;
       }
