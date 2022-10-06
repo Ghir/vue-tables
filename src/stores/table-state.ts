@@ -2,6 +2,8 @@ import { defineStore } from "pinia";
 
 import { ref } from "vue";
 
+import _ from "lodash";
+
 import { getData } from "@/helpers/api.mock";
 import { buildPath } from "@/helpers/build-path";
 
@@ -22,7 +24,9 @@ export const useTablesStore = defineStore("tables", () => {
   function deleteItem(paths: Path[]): void {
     const { objPath, indexToDelete } = buildPath(paths);
 
-    eval(`tableData.value${objPath}.splice(indexToDelete,1)`);
+    const targetArray = _.get(tableData.value, objPath, tableData.value);
+    targetArray.splice(indexToDelete, 1);
+    _.set(tableData.value, objPath, targetArray);
   }
 
   return { tableData, isLoading, loadData, deleteItem };
