@@ -1,4 +1,4 @@
-import { useTablesStore } from "./../../stores/table-state";
+import { useTablesStore } from "../../stores/table-state";
 import { mount, VueWrapper } from "@vue/test-utils";
 
 import { QBtn, QTable, Quasar } from "quasar";
