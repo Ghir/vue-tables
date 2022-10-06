@@ -1,13 +1,13 @@
 import type { TableRow } from "@/models/table.model";
 
-import data from "../../example-data.json";
+import exampleData from "../../example-data.json";
 
 export const getData = (): Promise<TableRow[]> => {
-  const patientsData = data as TableRow[];
+  const data = exampleData as TableRow[];
 
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(patientsData);
+      resolve(data);
     }, 500);
   });
 };

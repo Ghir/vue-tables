@@ -32,9 +32,10 @@
     <q-td colspan="100%">
       <div class="text-left">
         <CustomTable
-          v-for="key in Object.keys(rowProps.row.kids)"
-          :title="key"
-          :data="rowProps.row.kids[key].records"
+          v-for="kidTitle in Object.keys(rowProps.row.kids)"
+          :key="kidTitle"
+          :title="kidTitle"
+          :data="rowProps.row.kids[kidTitle].records"
           :paths="paths"
         />
       </div>

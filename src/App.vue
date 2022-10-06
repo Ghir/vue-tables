@@ -9,8 +9,8 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 
-import { usePatientsStore } from "@/stores/patients";
+import { useTablesStore } from "@/stores/table-state";
 
-const store = usePatientsStore();
+const store = useTablesStore();
 const { isLoading } = storeToRefs(store);
 </script>

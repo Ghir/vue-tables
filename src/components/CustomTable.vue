@@ -35,7 +35,7 @@ import CustomHeader from "@/components/CustomHeader.vue";
 import type { TableRow, Path } from "@/models/table.model";
 
 // Store
-import { usePatientsStore } from "@/stores/patients";
+import { useTablesStore } from "@/stores/table-state";
 
 const componentProps = defineProps<{
   title: string;
@@ -58,7 +58,7 @@ const colunms = computed(() =>
   }))
 );
 
-const { deleteItem } = usePatientsStore();
+const { deleteItem } = useTablesStore();
 
 const addPath = (rowIndex: number): Path[] => [
   ...componentProps.paths,

@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import { usePatientsStore } from "@/stores/patients";
+import { useTablesStore } from "@/stores/table-state";
 
 const routes = [
   {
     path: "/",
-    name: "Patients",
-    component: () => import("@/views/Patients.vue"),
-    beforeEnter: () => usePatientsStore().loadData(),
+    name: "TablesPage",
+    component: () => import("@/views/TablesPage.vue"),
+    beforeEnter: () => useTablesStore().loadData(),
   },
 ];
 

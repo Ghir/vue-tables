@@ -1,9 +1,9 @@
 <template>
   <CustomTable
     title="Data.json"
-    :data="patientsData"
+    :data="tableData"
     :paths="[]"
-    v-if="patientsData.length"
+    v-if="tableData.length"
   />
 
   <div v-else>No data</div>
@@ -13,8 +13,8 @@
 import { storeToRefs } from "pinia";
 
 import CustomTable from "@/components/CustomTable.vue";
-import { usePatientsStore } from "@/stores/patients";
+import { useTablesStore } from "@/stores/table-state";
 
-const store = usePatientsStore();
-const { patientsData } = storeToRefs(store);
+const store = useTablesStore();
+const { tableData } = storeToRefs(store);
 </script>
