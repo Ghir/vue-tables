@@ -22,5 +22,5 @@ export function buildPath(paths: Path[]) {
     }
   });
 
-  return { objPath, indexToDelete };
+  return { objPath: objPath.join(""), indexToDelete };
 }

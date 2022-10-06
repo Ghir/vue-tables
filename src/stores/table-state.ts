@@ -22,7 +22,7 @@ export const useTablesStore = defineStore("tables", () => {
   function deleteItem(paths: Path[]): void {
     const { objPath, indexToDelete } = buildPath(paths);
 
-    eval(`tableData.value${objPath.join("")}.splice(indexToDelete,1)`);
+    eval(`tableData.value${objPath}.splice(indexToDelete,1)`);
   }
 
   return { tableData, isLoading, loadData, deleteItem };
